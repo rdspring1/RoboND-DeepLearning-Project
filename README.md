@@ -1,7 +1,8 @@
 ## [Rubric](https://review.udacity.com/#!/rubrics/1155/view)
+Here is my writeup for the Udacity RoboND Deep Learning Project.
 ---
-### Results
 
+### Results
 | Task        			|     Score	        	  | 
 |:---------------------:|:-----------------------:| 
 | Following Target    	| TP: 539 FP:  0 FN: 0    | 
@@ -12,13 +13,13 @@
 The model and data achieve an accuracy of 44.8% using the intersection over union metric (IOU).
 
 #### Following Target
-![predict with target][./results/images/following.png]
+![following](./results/images/following.png)
 
 #### Patrolling with Target Visible
-![patrol with target][./results/images/patrolling_target.png]
+![patrolling_target](./results/images/patrolling_target.png)
 
 #### Patrolling without Target
-![patrol without target][./results/images/patrolling_no_target.png]
+![patrolling_no_target](./results/images/patrolling_no_target.png)
 
 ### Network Architecture
 
@@ -36,22 +37,21 @@ The model and data achieve an accuracy of 44.8% using the intersection over unio
 | Decoder 3	    		| 32 filters, Skip Connection: Input			|
 | 2D Convolution		| outputs NUM_CLASSES, activation = softmax		|
  
-My architecture is a derivative of the VGG-16 architecture used for the ImageNet dataset.
+My architecture is a derivative of the VGG-16 architecture, recommended by the original scene segmentation paper.
 Two standard convolutions are applied to the input image to extract features before the encoder/decoder sections of the network.
 I selected three encoder-decoder layers to strike a balance between computational cost and model capacity.
 
-This architecture is recommended by the original scene segmentation paper.
-[SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation]](https://arxiv.org/abs/1511.00561.pdf)
+[SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation](https://arxiv.org/abs/1511.00561.pdf)
 
-![training + validation loss over time][./results/images/training.png]
+![training_validation_loss](./results/images/training.png)
 
 ### Hyper-Parameters
 * Optimizer: Adam
-* Default Learning Rate: 1e-2
+* Learning Rate: 1e-2
 * Batch Size: 64
 * Number of epochs: 10
 
-The Adam optimizer is standard choice for deep learning applications that reduces the randomness of stochastic gradient descent and improves model convergence. Larger batch sizes converge to sharp minima, so I selected a small batch size as recommend by the paper below. 
+The Adam optimizer is standard choice for deep learning applications that reduces the randomness of stochastic gradient descent and improves model convergence. Larger batch sizes converge to sharp minima, so I selected a small batch size as recommend by the paper below. Decreasing the number of training epochs prevents the network from learning completely from the data. Increasing the number of epochs causes overfitting and does not improve network accuracy.
 
 [On Large-Batch Training for Deep Learning: Generalization Gap and Sharp Minima](https://arxiv.org/abs/1609.04836)
 
@@ -68,7 +68,9 @@ The setup is used for machine learning tasks that require the preservation of sp
 
 * Scene Segmentation - Assign each pixel in an image to a specific class
 * Image Super-Resolution - Convert low resolution images to high resolution images.
-* Image Generation - Generative Adversarial Networks (GANs) and Variational Auto-Encoders (VAEs) generate new images using an Encoder / Decoder setup 
+* Image Generation - Generative Adversarial Networks (GANs) and Variational Auto-Encoders (VAEs) generate new high-quality images using an Encoder / Decoder setup
+
+See [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf) for the connections between Encoder/Decoder model and Generative Models.
 
 ### Model Limitations
 The model architecture and data cannot handle tracking another object. The current architecture is trained to track a specific person, which has different features from other objects. 
